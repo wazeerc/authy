@@ -70,8 +70,8 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button className="w-full" type="submit">
-          Submit
+        <Button className="text-md font-regula w-full uppercase" type="submit">
+          Login
         </Button>
       </form>
     </Form>
