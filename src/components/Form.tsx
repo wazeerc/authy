@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -23,8 +25,13 @@ const formSchema = z.object({
     message: "Password must be at least 6 characters.",
   }),
 });
+type TDefaultForm = {
+  formType: "login" | "register";
+};
 
-export function LoginForm() {
+export function DefaultForm({ formType }: TDefaultForm) {
+  const [isLogin, setIsLogin] = React.useState(formType === "login");
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,38 +49,52 @@ export function LoginForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className="text-md font-regula w-full uppercase" type="submit">
-          Login
-        </Button>
-      </form>
-    </Form>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className="text-md font-regula w-full uppercase" type="submit">
+            {isLogin ? "Login" : "Register"}
+          </Button>
+        </form>
+      </Form>
+      {isLogin && (
+        <span className={cn("mt-4 block")}>
+          <a
+            onClick={() => setIsLogin(false)}
+            className={cn(
+              "transition-150 text-neutral-700 underline transition-all hover:cursor-pointer hover:text-neutral-500",
+            )}
+          >
+            Not a user? Register now.
+          </a>
+        </span>
+      )}
+    </>
   );
 }
