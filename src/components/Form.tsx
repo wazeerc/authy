@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Credentials, FormProps } from "@/types";
+import React from "react";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -24,7 +25,7 @@ const formSchema = z.object({
   }),
 }) satisfies z.ZodType<Credentials>;
 
-export function AuthForm({ action, buttonText, onSubmit }: FormProps) {
+export function AuthForm({ action, buttonText, onSubmit, isSuccess }: FormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,6 +33,12 @@ export function AuthForm({ action, buttonText, onSubmit }: FormProps) {
       password: "",
     },
   });
+
+  React.useEffect(() => {
+    if (isSuccess) {
+      form.reset();
+    }
+  }, [isSuccess, form]);
 
   return (
     <Form {...form}>

@@ -9,6 +9,7 @@ export const Register = () => {
 
   const handleSubmit = (values: Credentials) => {
     registerUser(values);
+    alert("Registration successful! Please login to continue.");
   };
 
   return (
