@@ -1,15 +1,14 @@
 import { useNavigate } from "react-router-dom";
 
-import { cn } from "@/lib/utils";
-import { FormValues } from "@/types";
+import { cn, loginUser } from "@/lib/utils";
+import { Credentials } from "@/types";
 import { AuthForm } from "@/components/Form";
 
 export const Login = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (values: FormValues) => {
-    console.log("Login:", values);
-    // Add login logic here
+  const handleSubmit = (values: Credentials) => {
+    loginUser(values);
   };
 
   return (
