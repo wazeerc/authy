@@ -1,6 +1,6 @@
 export type FormType = "login" | "register";
 
-export type FormValues = {
+export type Credentials = {
   username: string;
   password: string;
 };

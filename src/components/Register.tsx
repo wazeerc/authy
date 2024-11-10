@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
 
-import { cn } from "@/lib/utils";
-import { FormValues } from "@/types";
+import { cn, registerUser } from "@/lib/utils";
+import { Credentials } from "@/types";
 import { AuthForm } from "@/components/Form";
 
 export const Register = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (values: FormValues) => {
-    console.log("Register:", values);
-    // Add registration logic here
+  const handleSubmit = (values: Credentials) => {
+    registerUser(values);
+    alert("Registration successful! Please login to continue.");
   };
 
   return (
