@@ -7,14 +7,19 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function registerUser(userCredentials: Credentials) {
+const fakeResponseDelay: number = 2000;
+export async function registerUser(userCredentials: Credentials) {
+  await new Promise(resolve => setTimeout(resolve, fakeResponseDelay));
+
   const token = btoa(`${userCredentials.username}:${userCredentials.password}`);
   localStorage.setItem("authToken", token);
 }
 
-export function loginUser(userCredentials: Credentials) {
+export async function loginUser(userCredentials: Credentials) {
+  await new Promise(resolve => setTimeout(resolve, fakeResponseDelay));
+
   const token = btoa(`${userCredentials.username}:${userCredentials.password}`);
   const storedToken = localStorage.getItem("authToken");
   if (token === storedToken) return true;
-  return false;
+  throw new Error("Invalid credentials");
 }
