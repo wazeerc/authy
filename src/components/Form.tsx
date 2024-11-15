@@ -48,14 +48,15 @@ export function AuthForm({ action, buttonText, onSubmit, isSuccess }: FormProps)
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel className="dark:text-gray-200">Username</FormLabel>
               <FormControl>
                 <Input
+                  className="dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   placeholder={`${action === "login" ? "Enter" : "Choose"} your username`}
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="dark:text-red-400" />
             </FormItem>
           )}
         />
@@ -64,19 +65,23 @@ export function AuthForm({ action, buttonText, onSubmit, isSuccess }: FormProps)
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel className="dark:text-gray-200">Password</FormLabel>
               <FormControl>
                 <Input
+                  className="dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   type="password"
                   placeholder={`${action === "login" ? "Enter" : "Choose"} your password`}
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="dark:text-red-400" />
             </FormItem>
           )}
         />
-        <Button className="text-md font-regular w-full uppercase" type="submit">
+        <Button
+          className="text-md font-regular w-full uppercase dark:bg-purple-600 dark:text-white dark:hover:bg-purple-700"
+          type="submit"
+        >
           {buttonText}
         </Button>
       </form>
