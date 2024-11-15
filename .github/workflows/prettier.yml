@@ -31,4 +31,4 @@ jobs:
         run: pnpm install
 
       - name: Prettify code
-        run: pnpm prettier --write "**/*.{tsx,js,css,html}"
+        run: pnpm prettier --write .
