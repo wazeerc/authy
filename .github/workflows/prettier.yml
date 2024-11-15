@@ -16,7 +16,19 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          prettier_options: --write **/*.{tsx,js,css,html}
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Prettify code
+        run: pnpm prettier --write "**/*.{tsx,js,css,html}"
