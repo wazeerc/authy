@@ -30,7 +30,12 @@ export const Login = () => {
             "bg-white dark:bg-gray-800",
           )}
         >
-          <h1 className={cn("mb-14 text-5xl", "text-purple-500 dark:text-purple-400")}>
+          <h1
+            className={cn(
+              "mb-14 text-5xl",
+              "text-purple-500 dark:text-purple-400",
+            )}
+          >
             Welcome to Authy
           </h1>
           <AuthForm

@@ -49,7 +49,12 @@ const Home = () => {
               >
                 Welcome to Authy
               </h1>
-              <p className={cn("mb-8 text-xl", "text-gray-600 dark:text-gray-300")}>
+              <p
+                className={cn(
+                  "mb-8 text-xl",
+                  "text-gray-600 dark:text-gray-300",
+                )}
+              >
                 Your secure authentication solution
               </p>
               <button
@@ -68,7 +73,10 @@ const Home = () => {
           </div>
 
           <div
-            className={cn("container mx-auto px-4 py-16", "grid grid-cols-1 gap-8 md:grid-cols-3")}
+            className={cn(
+              "container mx-auto px-4 py-16",
+              "grid grid-cols-1 gap-8 md:grid-cols-3",
+            )}
           >
             {features.map((feature, index) => (
               <div
@@ -81,13 +89,25 @@ const Home = () => {
                   "hover:-translate-y-1 hover:shadow-xl",
                 )}
               >
-                <div className={cn("mb-4 text-3xl", "text-purple-600 dark:text-purple-400")}>
+                <div
+                  className={cn(
+                    "mb-4 text-3xl",
+                    "text-purple-600 dark:text-purple-400",
+                  )}
+                >
                   {feature.icon}
                 </div>
-                <h3 className={cn("mb-2 text-xl font-semibold", "dark:text-white")}>
+                <h3
+                  className={cn(
+                    "mb-2 text-xl font-semibold",
+                    "dark:text-white",
+                  )}
+                >
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
@@ -109,7 +129,11 @@ const SuccessModal = (props: SuccessModalProps) => {
   const { closeModal } = props;
 
   return (
-    <div className={cn("fixed inset-0 flex items-center justify-center bg-black bg-opacity-50")}>
+    <div
+      className={cn(
+        "fixed inset-0 flex items-center justify-center bg-black bg-opacity-50",
+      )}
+    >
       <div
         className={cn(
           "flex flex-col rounded-md border-4 border-solid px-12 py-8",
@@ -131,8 +155,12 @@ const SuccessModal = (props: SuccessModalProps) => {
           </button>
         </div>
         <div className={cn("mb-4 text-5xl text-green-500")}>✓</div>
-        <h1 className={cn("mb-4 text-2xl text-neutral-800 dark:text-white")}>Login Successful!</h1>
-        <p className={cn("mb-6 text-neutral-600 dark:text-gray-300")}>Welcome back!</p>
+        <h1 className={cn("mb-4 text-2xl text-neutral-800 dark:text-white")}>
+          Login Successful!
+        </h1>
+        <p className={cn("mb-6 text-neutral-600 dark:text-gray-300")}>
+          Welcome back!
+        </p>
       </div>
     </div>
   );

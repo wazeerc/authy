@@ -6,12 +6,14 @@ const app = express();
 const PORT = 5000;
 
 // Add CORS middleware
-app.use(cors({
-  origin: "http://localhost:5174", // Your frontend origin
-  methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type"],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5174", // Your frontend origin
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true,
+  }),
+);
 
 app.use(bodyParser.json());
 

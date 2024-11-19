@@ -25,7 +25,12 @@ const formSchema = z.object({
   }),
 }) satisfies z.ZodType<Credentials>;
 
-export function AuthForm({ action, buttonText, onSubmit, isSuccess }: FormProps) {
+export function AuthForm({
+  action,
+  buttonText,
+  onSubmit,
+  isSuccess,
+}: FormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
