@@ -7,19 +7,35 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const fakeResponseDelay: number = 2000;
-export async function registerUser(userCredentials: Credentials) {
-  await new Promise(resolve => setTimeout(resolve, fakeResponseDelay));
+const API_URL = "http://localhost:5000";
 
-  const token = btoa(`${userCredentials.username}:${userCredentials.password}`);
-  localStorage.setItem("authToken", token);
+export async function registerUser(userCredentials: Credentials) {
+  const response = await fetch(`${API_URL}/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userCredentials),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  return await response.json();
 }
 
 export async function loginUser(userCredentials: Credentials) {
-  await new Promise(resolve => setTimeout(resolve, fakeResponseDelay));
+  const response = await fetch(`${API_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userCredentials),
+  });
 
-  const token = btoa(`${userCredentials.username}:${userCredentials.password}`);
-  const storedToken = localStorage.getItem("authToken");
-  if (token === storedToken) return true;
-  throw new Error("Invalid credentials");
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+
+  const data = await response.json();
+  localStorage.setItem("authToken", data.token);
+  return true;
 }

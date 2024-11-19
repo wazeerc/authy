@@ -14,7 +14,7 @@ export const useLogin = () => {
       return result;
     },
     onSuccess: () => {
-      navigate("/success");
+      navigate("/home");
     },
     onError: error => {
       alert(error.message);

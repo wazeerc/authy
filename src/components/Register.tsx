@@ -26,11 +26,13 @@ export const Register = () => {
         <div
           className={cn(
             "rounded-md border-4 border-solid px-24 py-20 shadow-sm",
-            "dark:border-purple-700 border-purple-200",
-            "dark:bg-gray-800 bg-white"
+            "border-purple-200 dark:border-purple-700",
+            "bg-white dark:bg-gray-800",
           )}
         >
-          <h1 className={cn("mb-14 text-5xl", "dark:text-purple-400 text-purple-500")}>Welcome to Authy</h1>
+          <h1 className={cn("mb-14 text-5xl", "text-purple-500 dark:text-purple-400")}>
+            Welcome to Authy
+          </h1>
           <AuthForm action="register" buttonText="Register" onSubmit={handleSubmit} />
           <span className={cn("mt-4 block")}>
             <a
@@ -38,7 +40,7 @@ export const Register = () => {
               className={cn(
                 "transition-150 underline transition-all hover:cursor-pointer",
                 "dark:text-gray-300 dark:hover:text-gray-100",
-                "text-neutral-700 hover:text-neutral-500"
+                "text-neutral-700 hover:text-neutral-500",
               )}
             >
               Already have an account? Login
