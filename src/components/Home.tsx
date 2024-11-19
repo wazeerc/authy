@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLogout } from "@/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { createPortal } from "react-dom";
 import { Loader } from "./Loader";
@@ -25,7 +25,7 @@ const features = [
 const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(true);
   const closeModal = () => setIsModalVisible(false);
-  const { mutateAsync: logout, isPending } = useLogout();
+  const { mutateAsync: logout, isPending } = useAuth("logout");
 
   return (
     <>
@@ -53,7 +53,7 @@ const Home = () => {
                 Your secure authentication solution
               </p>
               <button
-                onClick={() => logout()}
+                onClick={() => logout(undefined)}
                 className={cn(
                   "rounded-full px-8 py-3",
                   "bg-purple-600 text-white",

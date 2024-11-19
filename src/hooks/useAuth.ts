@@ -1,55 +1,41 @@
-import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 import { Credentials } from "@/types";
-
 import { loginUser, registerUser } from "@/lib/utils";
 
-export const useLogin = () => {
+const authOptions = {
+  login: "login",
+  register: "register",
+  logout: "logout",
+} as const;
+type TAuthOptions = (typeof authOptions)[keyof typeof authOptions];
+
+function useAuth(authType: TAuthOptions) {
   const navigate = useNavigate();
 
+  const isLogin = authType === authOptions.login;
+  const isRegister = authType === authOptions.register;
+
   return useMutation({
-    mutationFn: async (credentials: Credentials) => {
-      const result = await loginUser(credentials);
-      return result;
+    mutationFn: async (credentials?: Credentials) => {
+      return isLogin
+        ? await loginUser(credentials!)
+        : isRegister
+          ? await registerUser(credentials!)
+          : localStorage.removeItem("token");
     },
     onSuccess: () => {
-      navigate("/home");
+      return isLogin
+        ? navigate("/home")
+        : isRegister
+          ? navigate("/login")
+          : navigate("/");
     },
     onError: error => {
       alert(error.message);
     },
   });
-};
+}
 
-export const useRegister = () => {
-  const navigate = useNavigate();
-
-  return useMutation({
-    mutationFn: async (credentials: Credentials) => {
-      await registerUser(credentials);
-    },
-    onSuccess: () => {
-      navigate("/login");
-    },
-    onError: error => {
-      alert(error.message);
-    },
-  });
-};
-
-export const useLogout = () => {
-  const navigate = useNavigate();
-
-  return useMutation({
-    mutationFn: async (): Promise<void> => {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-    },
-    onSuccess: () => {
-      navigate("/");
-    },
-    onError: error => {
-      alert(error.message);
-    },
-  });
-};
+export default useAuth;

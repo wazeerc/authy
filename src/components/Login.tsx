@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { useLogin } from "@/hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
 import { Credentials } from "@/types";
 import { AuthForm } from "@/components/Form";
 
@@ -8,7 +8,7 @@ import { Loader } from "@/components/Loader";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { mutateAsync, isSuccess, isPending } = useLogin();
+  const { mutateAsync, isSuccess, isPending } = useAuth("login");
 
   const handleSubmit = async (values: Credentials) => {
     try {
