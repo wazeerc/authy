@@ -1,14 +1,17 @@
 import express, { RequestHandler } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import dotenv from "dotenv";
 
 const app = express();
-const PORT = 5000;
+
+dotenv.config();
+const PORT = process.env.API_PORT;
 
 // Add CORS middleware
 app.use(
   cors({
-    origin: "http://localhost:5174", // Your frontend origin
+    origin: `http://localhost:${process.env.FE_PORT}`,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
     credentials: true,
