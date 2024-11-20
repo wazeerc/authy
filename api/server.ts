@@ -11,7 +11,7 @@ const PORT = process.env.API_PORT;
 // Add CORS middleware
 app.use(
   cors({
-    origin: `http://localhost:${process.env.FE_PORT}`,
+    origin: "http://localhost:5173", // Allow only frontend to access the API, change to frontend URL
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
     credentials: true,
@@ -24,7 +24,7 @@ const users: Record<string, string> = {};
 
 (() => {
   users["root"] = "admins";
-  console.log("Root user created with password 'admin'");
+  console.log("Root user created with password 'admins'");
 })();
 
 const register: RequestHandler = (req, res) => {
