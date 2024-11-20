@@ -131,7 +131,7 @@ const SuccessModal = (props: SuccessModalProps) => {
   return (
     <div
       className={cn(
-        "fixed inset-0 flex items-center justify-center bg-black bg-opacity-50",
+        "fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-lg",
       )}
     >
       <div
