@@ -9,8 +9,11 @@ export function cn(...inputs: ClassValue[]) {
 
 const API_URL = "http://localhost:5000";
 
-export async function registerUser(userCredentials: Credentials) {
-  const response = await fetch(`${API_URL}/register`, {
+async function makeAuthRequest(
+  endpoint: "register" | "login",
+  userCredentials: Credentials,
+) {
+  const response = await fetch(`${API_URL}/${endpoint}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userCredentials),
@@ -20,22 +23,15 @@ export async function registerUser(userCredentials: Credentials) {
     const error = await response.json();
     throw new Error(error.message);
   }
-  return await response.json();
+  return response.json();
+}
+
+export async function registerUser(userCredentials: Credentials) {
+  return makeAuthRequest("register", userCredentials);
 }
 
 export async function loginUser(userCredentials: Credentials) {
-  const response = await fetch(`${API_URL}/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(userCredentials),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message);
-  }
-
-  const data = await response.json();
+  const data = await makeAuthRequest("login", userCredentials);
   localStorage.setItem("authToken", data.token);
   return true;
 }
