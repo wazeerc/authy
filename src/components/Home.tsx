@@ -1,7 +1,10 @@
 import { useState } from "react";
-import useAuth from "@/hooks/use-auth";
-import { cn } from "@/lib/utils";
 import { createPortal } from "react-dom";
+
+import useAuth from "@/hooks/use-auth";
+import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+
 import { Loader } from "./Loader";
 
 const features = [
@@ -24,8 +27,11 @@ const features = [
 
 const Home = () => {
   const [isModalVisible, setIsModalVisible] = useState(true);
-  const closeModal = () => setIsModalVisible(false);
   const { mutateAsync: logout, isPending } = useAuth("logout");
+
+  const closeModal = () => setIsModalVisible(false);
+
+  const { toast } = useToast();
 
   return (
     <>
@@ -58,7 +64,12 @@ const Home = () => {
                 Your secure authentication solution
               </p>
               <button
-                onClick={() => logout(undefined)}
+                onClick={() => {
+                  logout(undefined);
+                  toast({
+                    description: "You have been successfully logged out",
+                  });
+                }}
                 className={cn(
                   "rounded-full px-8 py-3",
                   "bg-purple-600 text-white",
