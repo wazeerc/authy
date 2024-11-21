@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { Credentials } from "@/types";
 import { loginUser, registerUser } from "@/lib/utils";
+import { useToast } from "./use-toast";
 
 const authOptions = {
   login: "login",
@@ -13,6 +14,7 @@ type TAuthOptions = (typeof authOptions)[keyof typeof authOptions];
 
 function useAuth(authType: TAuthOptions) {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const isLogin = authType === authOptions.login;
   const isRegister = authType === authOptions.register;
@@ -33,7 +35,10 @@ function useAuth(authType: TAuthOptions) {
           : navigate("/");
     },
     onError: error => {
-      alert(error.message);
+      toast({
+        description: error.message,
+        variant: "destructive",
+      });
     },
   });
 }
