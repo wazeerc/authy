@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import useAuth from "@/hooks/useAuth";
+import useAuth from "@/hooks/use-auth";
 import { Credentials } from "@/types";
 import { AuthForm } from "@/components/Form";
 

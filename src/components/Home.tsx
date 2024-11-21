@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useAuth from "@/hooks/useAuth";
+import useAuth from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 import { createPortal } from "react-dom";
 import { Loader } from "./Loader";
