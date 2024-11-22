@@ -6,6 +6,7 @@ A dummy authentication app I wrote to practice user registration and login funct
 
 - React + TypeScript
 - Express.js Backend
+- Vite for Build Tool and Development Server
 - TanStack Query for API calls
 - Tailwind CSS for Styling
 - Zustand for State Management
