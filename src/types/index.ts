@@ -9,3 +9,10 @@ export interface AuthyFormProps {
   formType: FormType;
   onFormTypeChange: (type: FormType) => void;
 }
+
+export interface FormProps {
+  action: "login" | "register";
+  buttonText: string;
+  onSubmit: (values: Credentials) => void;
+  isSuccess?: boolean;
+}
