@@ -28,17 +28,45 @@ function useAuth(authType: TAuthOptions) {
           : localStorage.removeItem("token");
     },
     onSuccess: () => {
-      return isLogin
-        ? navigate("/home")
-        : isRegister
-          ? navigate("/login")
-          : navigate("/");
+      if (isLogin) {
+        navigate("/home");
+        toast({
+          description: "Logged in successfully",
+        });
+      } else if (isRegister) {
+        navigate("/login");
+        toast({
+          description: "Registered successfully",
+        });
+      } else {
+        navigate("/");
+      }
     },
     onError: error => {
-      toast({
-        description: error.message,
-        variant: "destructive",
-      });
+      const errorMsg = error.message;
+
+      switch (errorMsg) {
+        case "Failed to fetch":
+          toast({
+            description: "Network error",
+            variant: "destructive",
+          });
+          break;
+
+        case "Invalid credentials":
+          toast({
+            description: errorMsg,
+            variant: "destructive",
+          });
+          break;
+
+        default:
+          toast({
+            description: errorMsg,
+            variant: "destructive",
+          });
+          break;
+      }
     },
   });
 }
