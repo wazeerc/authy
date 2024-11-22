@@ -6,12 +6,15 @@ import { AuthForm } from "@/components/AuthForm";
 
 import { Loader } from "@/components/Loader";
 
+import useStore from "../store/ZustandStore";
+
 export const Login = () => {
   const navigate = useNavigate();
   const { mutateAsync, isSuccess, isPending } = useAuth("login");
 
   const handleSubmit = async (values: Credentials) => {
     try {
+      useStore.setState({ activeUserName: values.username });
       await mutateAsync(values);
     } catch (error) {
       console.error(error);

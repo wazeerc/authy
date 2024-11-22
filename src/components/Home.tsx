@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 
 import { Loader } from "./Loader";
 
+import useStore from "../store/ZustandStore";
+
 const features = [
   {
     icon: "🔒",
@@ -25,9 +27,12 @@ const features = [
   },
 ];
 
-const Home = () => {
+type HomeProps = { username: string };
+const Home = (props: HomeProps) => {
   const [isModalVisible, setIsModalVisible] = useState(true);
   const { mutateAsync: logout, isPending } = useAuth("logout");
+
+  const username = props.username;
 
   const closeModal = () => setIsModalVisible(false);
 
@@ -53,7 +58,7 @@ const Home = () => {
                   "bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent",
                 )}
               >
-                Welcome to Authy
+                Welcome to Authy, {username && username + "!"}
               </h1>
               <p
                 className={cn(
@@ -66,6 +71,7 @@ const Home = () => {
               <button
                 onClick={() => {
                   logout(undefined);
+                  useStore.setState({ activeUserName: "" });
                   toast({
                     description: "You have been successfully logged out",
                   });
