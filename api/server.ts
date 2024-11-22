@@ -3,12 +3,10 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 
+const users: Record<string, string> = {};
+
 const app = express();
-
-dotenv.config();
-const PORT = process.env.API_PORT;
-
-// Add CORS middleware
+// CORS middleware
 app.use(
   cors({
     origin: "http://localhost:5173", // Allow only frontend to access the API, change to frontend URL
@@ -17,16 +15,15 @@ app.use(
     credentials: true,
   }),
 );
-
 app.use(bodyParser.json());
 
-const users: Record<string, string> = {};
-
+// Create root user
 (() => {
   users["root"] = "admins";
   console.log("Root user created with password 'admins'");
 })();
 
+//#region: Auth middleware
 const register: RequestHandler = (req, res) => {
   const { username, password } = req.body;
   if (users[username]) {
@@ -46,14 +43,18 @@ const login: RequestHandler = (req, res) => {
   }
   res.status(401).json({ message: "Invalid credentials" });
 };
+//#endregion
 
+//#region: API routes
 app.get("/", (_, res) => {
   res.send("Welcome to Authy API!");
 });
-
 app.post("/register", register);
 app.post("/login", login);
 
+dotenv.config();
+const PORT = process.env.API_PORT;
 app.listen(PORT, () => {
   console.log(`API running at http://localhost:${PORT}`);
 });
+//#endregion

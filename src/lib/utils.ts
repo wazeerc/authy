@@ -1,18 +1,22 @@
+//#region: Tailwind CSS cn function
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-
-import { Credentials } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+//#endregion
 
-const API_URL = "http://localhost:5000";
+//#region: Auth API functions
+import { Credentials } from "@/types";
+
+const PORT = import.meta.env.VITE_API_PORT;
+const API_URL = `http://localhost:${PORT}`;
 
 async function makeAuthRequest(
   endpoint: "register" | "login",
   userCredentials: Credentials,
-) {
+): Promise<{ token: string }> {
   const response = await fetch(`${API_URL}/${endpoint}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -26,12 +30,17 @@ async function makeAuthRequest(
   return response.json();
 }
 
-export async function registerUser(userCredentials: Credentials) {
+export async function registerUser(
+  userCredentials: Credentials,
+): Promise<{ token: string }> {
   return makeAuthRequest("register", userCredentials);
 }
 
-export async function loginUser(userCredentials: Credentials) {
+export async function loginUser(
+  userCredentials: Credentials,
+): Promise<boolean> {
   const data = await makeAuthRequest("login", userCredentials);
   localStorage.setItem("authToken", data.token);
   return true;
 }
+//#endregion
