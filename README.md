@@ -1,6 +1,6 @@
 # Authy
 
-A dummy authentication app I wrote to practice user registration and login functionality, includes a minimal express API.
+A dummy authentication app I wrote to practice user registration and login functionality (from scratch), includes an Express API server.
 
 > [!NOTE]
 > This is for Educational purposes only.
