@@ -12,6 +12,7 @@ import { Credentials } from "@/types";
 
 const API_URL = `http://localhost:5000`;
 
+//? Ideally should be encrypted when making requests or use HTTPS
 async function makeAuthRequest(
   endpoint: "register" | "login",
   userCredentials: Credentials,

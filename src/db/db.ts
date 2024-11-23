@@ -1,3 +1,5 @@
+//? A lightweight alternative to an actual DB
+
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
