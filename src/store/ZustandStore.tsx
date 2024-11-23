@@ -5,7 +5,7 @@ interface StoreState {
   setActiveUserName: (name: string) => void;
 }
 
-const useStore = create<StoreState>((set) => ({
+const useStore = create<StoreState>(set => ({
   activeUserName: "",
   setActiveUserName: (name: string) => set({ activeUserName: name }),
 }));

@@ -9,6 +9,7 @@
     "api": "npx tsx api/server.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "prettier": "prettier --write .",
     "preview": "vite preview"
   },
   "dependencies": {
