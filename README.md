@@ -10,6 +10,7 @@ A dummy authentication app I wrote to practice user registration and login funct
 - TanStack Query for API calls
 - Tailwind CSS for Styling
 - Zustand for State Management
+- LowDB for mock DB implementation
 
 ### Prerequisites
 
