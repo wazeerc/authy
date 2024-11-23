@@ -1,8 +1,9 @@
-import express, { RequestHandler } from "express";
+import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
-const users: Record<string, string> = {};
+import { hashPassword } from "../src/lib/utils";
+import { db, initDB } from "../src/db/db";
 
 const app = express();
 // CORS middleware
@@ -16,31 +17,33 @@ app.use(
 );
 app.use(bodyParser.json());
 
-// Create root user
-(() => {
-  users["root"] = "admin1";
-  console.log("Root user created with password `admin1`");
-})();
-
 //#region: Auth middleware
-const register: RequestHandler = (req, res) => {
+const register = async (req, res) => {
   const { username, password } = req.body;
-  if (users[username]) {
-    res.status(400).json({ message: "User already exists" });
-    return;
-  }
-  users[username] = password;
+
+  await db.read();
+  const existingUser = db.data?.users.find(user => user.username === username);
+
+  if (existingUser)
+    return res.status(400).json({ message: "User already exists" });
+
+  const hashedPassword = hashPassword(password);
+  db.data?.users.push({ username, hashedPassword });
+  await db.write();
+
   res.status(201).json({ message: "User registered successfully" });
 };
 
-const login: RequestHandler = (req, res) => {
+const login = async (req, res) => {
   const { username, password } = req.body;
-  if (users[username] && users[username] === password) {
-    const token = Buffer.from(`${username}:${password}`).toString("base64");
-    res.status(200).json({ token });
-    return;
-  }
-  res.status(401).json({ message: "Invalid credentials" });
+
+  await db.read();
+  const user = db.data?.users.find(user => user.username === username);
+
+  if (!user || user.hashedPassword !== hashPassword(password))
+    return res.status(400).json({ message: "Invalid username or password" });
+
+  res.status(200).json({ message: "Login successful" });
 };
 //#endregion
 
@@ -51,7 +54,20 @@ app.get("/", (_, res) => {
 app.post("/register", register);
 app.post("/login", login);
 
-app.listen(5000, () => {
+app.listen(5000, async () => {
+  await initDB();
+
+  await db.read();
+  const rootUser = db.data?.users.find(user => user.username === "root");
+  if (!rootUser) {
+    db.data?.users.push({
+      username: "root",
+      hashedPassword: hashPassword("admin1"),
+    });
+    await db.write();
+    console.log("Root user created with password `admin1`");
+  }
+
   console.log(`API running at http://localhost:5000`);
 });
 //#endregion
