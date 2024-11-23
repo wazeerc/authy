@@ -15,6 +15,8 @@ export const Login = () => {
   const handleSubmit = async (values: Credentials) => {
     try {
       useStore.setState({ isAuthenticated: true });
+      localStorage.setItem("isAuthenticated", "true");
+
       useStore.setState({ activeUserName: values.username });
       await mutateAsync(values);
     } catch (error) {

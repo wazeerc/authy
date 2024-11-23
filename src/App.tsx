@@ -18,7 +18,8 @@ const queryClient = new QueryClient();
 function App() {
   const activeUserName = useStore(state => state.activeUserName);
 
-  const isAuthenticated = useStore(state => state.isAuthenticated);
+  const isAuthenticatedInMemory = useStore(state => state.isAuthenticated);
+  const isAuthenticatedInStorage = localStorage.getItem("isAuthenticated");
 
   return (
     <ThemeProvider>
@@ -33,7 +34,7 @@ function App() {
             <Route
               path="/home"
               element={
-                isAuthenticated ? (
+                isAuthenticatedInStorage || isAuthenticatedInMemory ? (
                   <Home username={activeUserName} />
                 ) : (
                   <Error toastErrorMsg="This page is available to registered users only." />
