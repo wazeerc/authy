@@ -1,7 +1,6 @@
 import express, { RequestHandler } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import dotenv from "dotenv";
 
 const users: Record<string, string> = {};
 
@@ -52,9 +51,7 @@ app.get("/", (_, res) => {
 app.post("/register", register);
 app.post("/login", login);
 
-dotenv.config();
-const PORT = process.env.API_PORT;
-app.listen(PORT, () => {
-  console.log(`API running at http://localhost:${PORT}`);
+app.listen(5000, () => {
+  console.log(`API running at http://localhost:5000`);
 });
 //#endregion

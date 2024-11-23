@@ -10,8 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 //#region: Auth API functions
 import { Credentials } from "@/types";
 
-const PORT = import.meta.env.VITE_API_PORT;
-const API_URL = `http://localhost:${PORT}`;
+const API_URL = `http://localhost:5000`;
 
 async function makeAuthRequest(
   endpoint: "register" | "login",
