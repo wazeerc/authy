@@ -2,6 +2,9 @@
 
 A dummy authentication app I wrote to practice user registration and login functionality, includes a minimal express API.
 
+> [!NOTE]
+> This is for Educational purposes only.
+
 ## Tech Stack & Packages
 
 - React + TypeScript
@@ -16,8 +19,7 @@ A dummy authentication app I wrote to practice user registration and login funct
 ### Prerequisites
 
 - Node.js
-- npm/pnpm
-
+  
 ### Usage
 
 ```sh
