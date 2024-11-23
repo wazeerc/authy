@@ -43,10 +43,3 @@ export async function loginUser(
   return true;
 }
 //#endregion
-
-//#region: Password Encryption
-import CryptoJS from "crypto-js";
-
-export const hashPassword = (password: string) =>
-  CryptoJS.SHA256(password).toString();
-//#endregion

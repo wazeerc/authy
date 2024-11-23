@@ -1,8 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import bcrypt from "bcrypt";
 
-import { hashPassword } from "../src/lib/utils";
+import { encryptPassword } from "./utils";
 import { db, initDB } from "../src/db/db";
 
 const app = express();
@@ -27,7 +28,7 @@ const register = async (req, res) => {
   if (existingUser)
     return res.status(400).json({ message: "User already exists" });
 
-  const hashedPassword = hashPassword(password);
+  const hashedPassword = await encryptPassword(password);
   db.data?.users.push({ username, hashedPassword });
   await db.write();
 
@@ -40,7 +41,11 @@ const login = async (req, res) => {
   await db.read();
   const user = db.data?.users.find(user => user.username === username);
 
-  if (!user || user.hashedPassword !== hashPassword(password))
+  if (!user)
+    return res.status(400).json({ message: "Invalid username or password" });
+
+  const isValid = await bcrypt.compare(password, user.hashedPassword);
+  if (!isValid)
     return res.status(400).json({ message: "Invalid username or password" });
 
   res.status(200).json({ message: "Login successful" });
@@ -62,7 +67,7 @@ app.listen(5000, async () => {
   if (!rootUser) {
     db.data?.users.push({
       username: "root",
-      hashedPassword: hashPassword("admin1"),
+      hashedPassword: await encryptPassword("admin1"),
     });
     await db.write();
     console.log("Root user created with password `admin1`");
