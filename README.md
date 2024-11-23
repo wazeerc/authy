@@ -11,7 +11,7 @@ A dummy authentication app I wrote to practice user registration and login funct
 - Tailwind CSS for Styling
 - Zustand for State Management
 - LowDB for mock DB implementation
-- CryptoJS for Password Hashing
+- bcrypt for Password Hashing
 
 ### Prerequisites
 
