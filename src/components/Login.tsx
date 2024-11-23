@@ -46,6 +46,7 @@ export const Login = () => {
             buttonText="Login"
             onSubmit={handleSubmit}
             isSuccess={isSuccess}
+            activeUsername={useStore.getState().activeUserName || ""}
           />
           <span className={cn("mt-4 block")}>
             <a

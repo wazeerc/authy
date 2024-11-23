@@ -15,4 +15,5 @@ export interface FormProps {
   buttonText: string;
   onSubmit: (values: Credentials) => void;
   isSuccess?: boolean;
+  activeUsername?: string;
 }

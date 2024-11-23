@@ -30,11 +30,12 @@ export function AuthForm({
   buttonText,
   onSubmit,
   isSuccess,
+  activeUsername,
 }: FormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      username: activeUsername || "",
       password: "",
     },
   });
@@ -44,6 +45,16 @@ export function AuthForm({
       form.reset();
     }
   }, [isSuccess, form]);
+
+  React.useEffect(() => {
+    if (activeUsername) {
+      form.setValue("username", activeUsername);
+
+      (document.querySelector(
+        'input[name="password"]',
+      ) as HTMLInputElement)!.focus();
+    }
+  }, [activeUsername, form]);
 
   return (
     <Form {...form}>
