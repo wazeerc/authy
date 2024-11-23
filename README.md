@@ -2,7 +2,7 @@
 
 A dummy authentication app I wrote to practice user registration and login functionality, includes a minimal express API.
 
-## Tech Stack
+## Tech Stack & Packages
 
 - React + TypeScript
 - Express.js Backend
