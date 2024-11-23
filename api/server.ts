@@ -8,7 +8,7 @@ const app = express();
 // CORS middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow only frontend to access the API, change to frontend URL
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
     credentials: true,
@@ -18,8 +18,8 @@ app.use(bodyParser.json());
 
 // Create root user
 (() => {
-  users["root"] = "admins";
-  console.log("Root user created with password 'admins'");
+  users["root"] = "admin1";
+  console.log("Root user created with password `admin1`");
 })();
 
 //#region: Auth middleware
