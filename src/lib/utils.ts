@@ -8,13 +8,16 @@ export function cn(...inputs: ClassValue[]) {
 //#endregion
 
 //#region: Auth API functions
+import useStore from "@/store/ZustandStore";
+
 import { Credentials } from "@/types";
+import { TAuthOptions } from "../hooks/use-auth";
 
 const API_URL = `http://localhost:5000`;
 
 //? Ideally should be encrypted when making requests or use HTTPS
 async function makeAuthRequest(
-  endpoint: "register" | "login",
+  endpoint: Omit<TAuthOptions, "logout">,
   userCredentials: Credentials,
 ): Promise<{ token: string }> {
   const response = await fetch(`${API_URL}/${endpoint}`, {
@@ -41,6 +44,16 @@ export async function loginUser(
 ): Promise<boolean> {
   const data = await makeAuthRequest("login", userCredentials);
   localStorage.setItem("authToken", data.token);
+  localStorage.setItem("isAuthenticated", "true");
+
+  useStore.setState({ isAuthenticated: true });
   return true;
+}
+
+export function logoutUser() {
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("isAuthenticated");
+
+  useStore.setState({ activeUserName: "" });
 }
 //#endregion

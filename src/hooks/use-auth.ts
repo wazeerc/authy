@@ -2,17 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 
 import { Credentials } from "@/types";
-import { loginUser, registerUser } from "@/lib/utils";
+import { loginUser, logoutUser, registerUser } from "@/lib/utils";
 import { useToast } from "./use-toast";
-
-import useStore from "../store/ZustandStore";
 
 const authOptions = {
   login: "login",
   register: "register",
   logout: "logout",
 } as const;
-type TAuthOptions = (typeof authOptions)[keyof typeof authOptions];
+export type TAuthOptions = (typeof authOptions)[keyof typeof authOptions];
 
 function useAuth(authType: TAuthOptions) {
   const navigate = useNavigate();
@@ -21,15 +19,6 @@ function useAuth(authType: TAuthOptions) {
   const isLogin = authType === authOptions.login;
   const isRegister = authType === authOptions.register;
   const isLogout = authType === authOptions.logout;
-
-  const handleLogout = () => {
-    useStore.setState({ activeUserName: "" });
-    localStorage.removeItem("isAuthenticated");
-
-    toast({
-      description: "You have been successfully logged out",
-    });
-  };
 
   const handleWrongAuthType = () => {
     throw new Error("Invalid auth type");
@@ -42,7 +31,7 @@ function useAuth(authType: TAuthOptions) {
         : isRegister
           ? await registerUser(credentials!)
           : isLogout
-            ? handleLogout()
+            ? logoutUser()
             : handleWrongAuthType();
     },
     onSuccess: () => {
@@ -58,6 +47,9 @@ function useAuth(authType: TAuthOptions) {
         });
       } else if (isLogout) {
         navigate("/");
+        toast({
+          description: "You have been successfully logged out",
+        });
       } else {
         handleWrongAuthType();
       }
