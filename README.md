@@ -25,3 +25,15 @@ A dummy authentication app I wrote to practice user registration and login funct
 ```sh
 pnpm install && pnpm run start
 ```
+
+### Setup Environment Variables
+
+1. Create a `.env` file in the root directory of your project.
+2. Add the following line to the `.env` file:
+    ```sh
+    JWT_SECRET_KEY=your_secret_key_here
+    ```
+3. Replace `your_secret_key_here` with a secure, randomly generated key. You can use a tool like `openssl` to generate this key:
+    ```sh
+    openssl rand -base64 32
+    ```
