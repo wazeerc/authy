@@ -15,11 +15,16 @@ import { TAuthOptions } from "../hooks/use-auth";
 
 const API_URL = `http://localhost:5000`;
 
-//? Ideally should be encrypted when making requests or use HTTPS
+type AuthResponse = {
+  message: string;
+  token: string;
+};
+
+//? Ideally creds should be encrypted when making requests or use HTTPS
 async function makeAuthRequest(
   endpoint: Omit<TAuthOptions, "logout">,
   userCredentials: Credentials,
-): Promise<{ token: string }> {
+): Promise<AuthResponse> {
   const response = await fetch(`${API_URL}/${endpoint}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -35,23 +40,28 @@ async function makeAuthRequest(
 
 export async function registerUser(
   userCredentials: Credentials,
-): Promise<{ token: string }> {
-  return makeAuthRequest("register", userCredentials);
+): Promise<string> {
+  const response = await makeAuthRequest("register", userCredentials);
+  return response.token;
 }
 
-export async function loginUser(
-  userCredentials: Credentials,
-): Promise<boolean> {
-  const data = await makeAuthRequest("login", userCredentials);
-  localStorage.setItem("authToken", data.token);
+export async function loginUser(userCredentials: Credentials): Promise<string> {
+  const response = await makeAuthRequest("login", userCredentials);
+  const token = response.token;
+
+  localStorage.setItem("token", token);
   localStorage.setItem("isAuthenticated", "true");
 
-  useStore.setState({ isAuthenticated: true });
-  return true;
+  useStore.setState({
+    isAuthenticated: true,
+    activeUserName: userCredentials.username,
+  });
+
+  return token;
 }
 
 export function logoutUser() {
-  localStorage.removeItem("authToken");
+  localStorage.removeItem("token");
   localStorage.removeItem("isAuthenticated");
 
   useStore.setState({ activeUserName: "" });
