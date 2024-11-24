@@ -5,6 +5,8 @@ import { Credentials } from "@/types";
 import { loginUser, registerUser } from "@/lib/utils";
 import { useToast } from "./use-toast";
 
+import useStore from "../store/ZustandStore";
+
 const authOptions = {
   login: "login",
   register: "register",
@@ -18,6 +20,20 @@ function useAuth(authType: TAuthOptions) {
 
   const isLogin = authType === authOptions.login;
   const isRegister = authType === authOptions.register;
+  const isLogout = authType === authOptions.logout;
+
+  const handleLogout = () => {
+    useStore.setState({ activeUserName: "" });
+    localStorage.removeItem("isAuthenticated");
+
+    toast({
+      description: "You have been successfully logged out",
+    });
+  };
+
+  const handleWrongAuthType = () => {
+    throw new Error("Invalid auth type");
+  };
 
   return useMutation({
     mutationFn: async (credentials?: Credentials) => {
@@ -25,7 +41,9 @@ function useAuth(authType: TAuthOptions) {
         ? await loginUser(credentials!)
         : isRegister
           ? await registerUser(credentials!)
-          : localStorage.removeItem("token");
+          : isLogout
+            ? handleLogout()
+            : handleWrongAuthType();
     },
     onSuccess: () => {
       if (isLogin) {
@@ -38,8 +56,10 @@ function useAuth(authType: TAuthOptions) {
         toast({
           description: "Registered successfully",
         });
-      } else {
+      } else if (isLogout) {
         navigate("/");
+      } else {
+        handleWrongAuthType();
       }
     },
     onError: error => {
