@@ -4,14 +4,14 @@ import { ToastAction } from "@radix-ui/react-toast";
 import { useNavigate } from "react-router-dom";
 
 type ErrorPageProps = {
-  toastErrorMsg: string;
+  toastErrorMsg?: string;
 };
 export const Error = (props: ErrorPageProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
     toast({
-      description: `${props.toastErrorMsg}`,
+      description: `${props.toastErrorMsg || "This page is not available"}`,
       variant: "destructive",
       action: (
         <ToastAction altText="Login" onClick={() => navigate("/login")}>
