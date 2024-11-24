@@ -16,6 +16,13 @@ const app = express();
 initCors();
 app.use(bodyParser.json());
 
+// Add this interface near the top of the file
+interface AuthRequest extends Request {
+  user?: {
+    username: string;
+  };
+}
+
 //#region: Auth middleware
 const register = async (req, res) => {
   const { username, password } = req.body;
@@ -60,8 +67,10 @@ const login = async (req, res) => {
 app.get("/", (_, res) => {
   res.send("Welcome to Authy API!");
 });
-app.get("/protected", authenticateToken, (req, res) => {
-  res.status(200).json({ message: `Welcome, ${req.body.username}` });
+app.get("/protected", authenticateToken, (req: AuthRequest, res: Response) => {
+  res
+    .status(200)
+    .json({ message: `You have been authenticated, ${req.user?.username}` });
 });
 
 app.post("/register", register);
@@ -88,7 +97,7 @@ app.listen(5000, async () => {
 //#region Middlewares
 // JWT Middleware
 function authenticateToken(
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction,
 ): void {
@@ -102,7 +111,7 @@ function authenticateToken(
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET_KEY) as { username: string };
-    req.body.username = decoded.username;
+    req.user = { username: decoded.username };
     next();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {

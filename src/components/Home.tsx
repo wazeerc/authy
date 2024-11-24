@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 import useAuth from "@/hooks/use-auth";
@@ -32,6 +32,15 @@ const Home = (props: HomeProps) => {
   const closeModal = () => setIsModalVisible(false);
 
   const { mutateAsync, isPending } = useAuth("logout");
+
+  // Uncomment to test the protected route, verify Network tab in DevTools
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/protected", {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     },
+  //   });
+  // }, []);
 
   return (
     <>
