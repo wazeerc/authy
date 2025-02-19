@@ -38,3 +38,12 @@ pnpm install && pnpm run start
    ```sh
    openssl rand -base64 32
    ```
+### Authy Explained
+
+- User registers with a username and password.
+- Backend checks for existing username.
+- Password is hashed and stored if username is unique.
+- JWT token is generated and returned upon successful registration.
+- User logs in with username and password.
+- Backend verifies credentials and checks hashed password.
+- JWT token is generated and user session is managed.
