@@ -16,7 +16,6 @@ const app = express();
 initCors();
 app.use(bodyParser.json());
 
-// Add this interface near the top of the file
 interface AuthRequest extends Request {
   user?: {
     username: string;
